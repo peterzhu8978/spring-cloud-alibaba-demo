@@ -48,21 +48,11 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <!--spring-data-redis默认使用lettuce，在skywalking中未监控到，改用jedis-->
+        <!--spring-data-redis默认使用lettuce-->
+        <!--需要将skywalking的agent/option-plugins/apm-lettuce-5.x-plugin-6.6.0.jar移到agent/plugins目录里-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>io.lettuce</groupId>
-                    <artifactId>lettuce-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
         </dependency>
 
         <!-- redis依赖commons-pool 这个依赖一定要添加 -->

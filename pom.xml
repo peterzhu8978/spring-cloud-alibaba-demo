@@ -30,7 +30,6 @@
         <lombok.version>1.18.8</lombok.version>
         <skywalking.apm.toolkit.log4j-2.x>6.6.0</skywalking.apm.toolkit.log4j-2.x>
         <commons-pool2.version>2.6.2</commons-pool2.version>
-        <jedis.version>3.2.0</jedis.version>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
@@ -55,12 +54,6 @@
                 <groupId>org.apache.skywalking</groupId>
                 <artifactId>apm-toolkit-log4j-2.x</artifactId>
                 <version>${skywalking.apm.toolkit.log4j-2.x}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>redis.clients</groupId>
-                <artifactId>jedis</artifactId>
-                <version>${jedis.version}</version>
             </dependency>
 
             <dependency>
