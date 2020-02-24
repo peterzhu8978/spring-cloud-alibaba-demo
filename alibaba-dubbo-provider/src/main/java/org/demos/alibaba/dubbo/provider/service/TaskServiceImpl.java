@@ -1,13 +1,17 @@
 package org.demos.alibaba.dubbo.provider.service;
 
+import com.alibaba.fastjson.JSON;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Service;
 import org.demos.alibaba.dubbo.api.TaskService;
 import org.demos.alibaba.dubbo.api.model.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,15 +24,25 @@ import java.util.List;
 @RefreshScope
 public class TaskServiceImpl implements TaskService {
 
-    @Value("${task.id}")
-    private String taskId;
+    @Value("${useLocalCache}")
+    private Boolean useLocalCache;
+
+    private static List<Task> localTaskList = new ArrayList<>();
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     @Override
     public List<Task> list() {
         log.info("provider invoked!");
-        Task task = new Task();
-        task.setTaskId(taskId);
-        task.setTaskName("task-" + taskId);
-        return Arrays.asList(task);
+        if(useLocalCache) {
+            return localTaskList;
+        }
+
+        String taskListJson = redisTemplate.opsForValue().get("tasklist");
+        if(StringUtils.isNotBlank(taskListJson)) {
+            return JSON.parseArray(taskListJson, Task.class);
+        }
+        return new ArrayList<>();
     }
 }

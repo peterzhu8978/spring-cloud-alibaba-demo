@@ -15,4 +15,3 @@ dubbo:
     #-1表示自增端口，从20880开始
     #生产环境通过-Ddubbo.protocol.port指定固定端口
     port: -1
-
