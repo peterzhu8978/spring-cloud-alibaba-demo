@@ -1,5 +1,6 @@
 package org.demos.alibaba.dubbo.consumer.controller;
 
+import lombok.extern.log4j.Log4j2;
 import org.apache.dubbo.config.annotation.Reference;
 import org.demos.alibaba.dubbo.api.TaskService;
 import org.demos.alibaba.dubbo.api.model.Task;
@@ -16,6 +17,7 @@ import java.util.List;
  * @Date: 2020/2/22
  * @Company: ruixiaoyun.ltd
  */
+@Log4j2
 @RestController
 @RequestMapping
 public class TestController {
@@ -26,6 +28,7 @@ public class TestController {
     @ResponseBody
     @GetMapping(value = "/task_list", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Task> taskList() {
+        log.info("consumer invoked!");
         return taskService.list();
     }
 

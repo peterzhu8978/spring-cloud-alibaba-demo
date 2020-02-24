@@ -25,6 +25,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<Task> list() {
+        log.info("provider invoked!");
         Task task = new Task();
         task.setTaskId(taskId);
         task.setTaskName("task-" + taskId);
