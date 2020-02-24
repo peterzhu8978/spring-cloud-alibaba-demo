@@ -1,0 +1,18 @@
+## dubbo配置
+dubbo:
+  #注册地址
+  registry:
+    address: spring-cloud://localhost
+  #注解扫描
+  scan:
+    base-packages: org.demos.alibaba.dubbo.provider
+  #订阅配置
+  cloud:
+    subscribed-services:
+  #协议
+  protocol:
+    name: dubbo
+    #-1表示自增端口，从20880开始
+    #生产环境通过-Ddubbo.protocol.port指定固定端口
+    port: -1
+

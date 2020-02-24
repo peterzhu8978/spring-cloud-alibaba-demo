@@ -1,0 +1,20 @@
+## dubbo配置
+dubbo:
+  #注册地址
+  registry:
+    address: spring-cloud://localhost
+  #注解扫描
+  scan:
+    base-packages: org.demos.alibaba.dubbo.consumer
+  #订阅配置
+  cloud:
+    subscribed-services: alibaba-dubbo-provider
+  #消费者启动时不检查服务提供者状态
+  consumer:
+    check: false
+
+## web容器配置
+server:
+  servlet:
+    context-path: /alibaba-dubbo-consumer
+  port: 8080

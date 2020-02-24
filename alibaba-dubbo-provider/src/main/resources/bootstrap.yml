@@ -1,0 +1,66 @@
+# 注意配置中心地址(spring.cloud.nacos.config.server-addr)必须写在bootstrap.yml（否则会报错：Application failed to connect to Nacos server: ""）。
+# 当使用 Spring Cloud 的时候，配置信息一般是从 config server 加载的，为了取得配置信息（比如密码等），你需要一些提早的或引导配置。
+# 因此，把 config server 信息放在 bootstrap.yml，用来加载真正需要的配置信息
+
+# 若application.yml 和bootstrap.yml 在同一目录下：bootstrap.yml 先加载 application.yml后加载。
+# bootstrap.yml（bootstrap.properties）在application.yml（application.properties）之前加载，
+# 用于应用程序上下文的引导阶段，并由父Spring ApplicationContext加载。
+
+spring:
+  application:
+    name: alibaba-dubbo-provider
+  main:
+    allow-bean-definition-overriding: true
+
+## 多环境配置
+---
+spring:
+  profiles: dev
+  nacos-server: server02:8848
+  nacos-namespace: 36bc779f-b859-4779-b724-a00567064503
+
+---
+spring:
+  profiles: test
+  nacos-server: server02:8848
+  nacos-namespace: a0ca4f76-b110-4888-bfb7-aac770141815
+
+---
+spring:
+  profiles: prod
+  nacos-server: server02:8848
+  nacos-namespace: 76a3bce1-a24a-4eec-9a0f-d06a338d695d
+
+## 配置中心与注册中心配置
+---
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${spring.nacos-server}
+        namespace: ${spring.nacos-namespace}
+
+      config:
+        server-addr: ${spring.nacos-server}
+        namespace: ${spring.nacos-namespace}
+
+        refresh-enabled: true
+        file-extension: properties
+
+        # 共享配置
+        shared-configs[0]:
+          data-id: redis.properties
+          group: DEFAULT_GROUP
+          refresh: true
+        # 私有配置
+        extension-configs[0]:
+          data-id: config.properties
+          group: ${spring.application.name}
+          refresh: true
+
+
+
+---
+spring:
+  profiles:
+    active: dev
